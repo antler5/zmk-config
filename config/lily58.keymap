@@ -49,7 +49,7 @@
 &kp XXX &kp V  &kp M  &kp L    &kp C    &kp B            &kp B     &key_repeat &kp U     &kp O     &kp Q    &kp MINUS
 &kp XXX &kp S  &kp T  &kp R    &kp D    &kp Y            &kp F     &kp N       &kp E     &kp A     &kp I    &kp SQT
 &kp XXX &kp X  &kp K  &kp J    &kp G    &kp W  XXX   XXX &kp Z     &kp H       &kp COMMA &kp DOT   &kp SEMI &kp RSHFT
-                      XXX      XXX      &td 0  &mo 2 XXX &kp SPACE XXX         XXX
+                      XXX      XXX      &to 0  &mo 2 XXX &kp SPACE XXX         XXX
             >;
         };
 
