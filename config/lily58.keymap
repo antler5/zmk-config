@@ -26,7 +26,7 @@
           compatible = "zmk,behavior-adaptive";
           label = "ZM_adpt_r_i";
           #binding-cells = <0>;
-          clauses = <0 1>;
+          bindings = <&kp R &kp R>;
         };
     };
     macros {
