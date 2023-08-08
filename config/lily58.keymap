@@ -21,7 +21,7 @@
             bindings = <&lt 1 BSPC>, <&to 1>;
         };
     };
-    adaptives {
+    adaptive {
         adpt_r_i: adpt_r_i {
           compatible = "zmk,behavior-adaptive";
           label = "ZM_adpt_r_i";
