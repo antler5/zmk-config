@@ -27,6 +27,7 @@
           label = "ZM_adpt_r_i";
           #binding-cells = <0>;
           bindings = <&kp R>;
+          usage-pages = <HID_USAGE_KEY>;
         };
     };
     macros {
