@@ -13,21 +13,11 @@
 
 / {
    behaviors {
-        td0: tap_dance_0 {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_0";
+        hello_world: hello_world {
+            compatible = "zmk,behavior-send-string";
+            label = "ZSS_hello_world";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&lt 1 BSPC>, <&to 1>;
-        };
-    };
-    adaptive {
-        adpt_r_i: adpt_r_i {
-          compatible = "zmk,behavior-adaptive";
-          label = "ZM_adpt_r_i";
-          #binding-cells = <0>;
-          bindings = <&kp R>;
-          usage-pages = <HID_USAGE_KEY>;
+            text = "Hello, world!";
         };
     };
     macros {
@@ -69,7 +59,7 @@
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮                           ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
      XXX           &kp N1        &kp N2        &kp N3        &kp N4        &kp N5                                    &kp N6        &kp N7        &kp N8        &kp N9        &kp N0        XXX
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     XXX           &kp V         &kp M         &kp L         &kp C         &kp P                                     &kp     B     &adpt_r_i     &kp U         &kp O         &kp Q         XXX
+     XXX           &kp V         &kp M         &kp L         &kp C         &kp P                                     &kp     B     &hello_world  &kp U         &kp O         &kp Q         XXX
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      XXX           &kp S         &kp T         &kp R         &kp D         &kp Y                                     &kp F         &kp N         &kp E         &kp A         &kp I         XXX
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┬─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
