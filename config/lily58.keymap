@@ -12,14 +12,8 @@
 #define XXX &none
 
 / {
-   behaviors {
-        td0: tap_dance_0 {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_0";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&lt 1 BSPC>, <&to 1>;
-        };
+    chosen {
+        zmk,character_map = &charmap_us;
     };
     macros {
         dbl_l: dbl_l {
