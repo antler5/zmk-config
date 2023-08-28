@@ -1,9 +1,39 @@
-/* -*- mode: c -*- */
-/*
+/* -*- mode: c -*-
+ *
  * Copyright (c) 2020 The ZMK Contributors
+ * Copyright (c) 2020 antlers <antlers@illucid.net>
  *
  * SPDX-License-Identifier: MIT
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the “Software”), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  */
+
+#define ZMK_TAP_DANCE_STRINGIFY(x) #x
+#define ZMK_TAP_DANCE(name, layer) \
+    name: name { \
+            compatible = "zmk,behavior-tap-dance"; \
+            label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
+            #binding-cells = <0>; \
+            tapping-term-ms = <200>;
+            bindings = <&mo layer>, <&to layer>;
+        };
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
@@ -15,15 +45,21 @@
 
 #define BASE 0  // layer shortcuts, must match order in which they are defined below
 #define EXT  1
-#define FUN  2
-#define SYM  3
+#define SYM  2
+#define FUN  3
 #define NUM  4
 #define QRT  5
 
 / {
+    behaviors {
+        ZMK_TAP_DANCE(td_ext, EXT)
+        ZMK_TAP_DANCE(td_sym, SYM)
+        ZMK_TAP_DANCE(td_num, FUN)
+        ZMK_TAP_DANCE(td_num, NUM)
+    };
     conditional_layers {
       compatible = "zmk,conditional-layers";
-        tri_layer {
+        fun_layer {
             if-layers = <EXT SYM>;
             then-layer = <FUN>;
         };
@@ -69,7 +105,7 @@
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┬─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
      XXX           &kp X         &kp K         &kp J         &kp G         &kp W         XXX           XXX           &kp Z         &kp H         &kp COMMA     &kp DOT       &kp SEMI      XXX
 // └─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────┘
-                                               XXX           XXX           &mo EXT       &kp LSHIFT    &kp SPC       &mo SYM       XXX           XXX
+                                               XXX           &td_num       &td_ext       &kp LSHIFT    &kp SPC       &td_sym       &td_fun       XXX
 //                                           ╰─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────╯
             >;
         };
@@ -90,22 +126,6 @@
             >;
         };
 
-        function_layer {
-            bindings = <
-// ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮                           ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-     XXX           XXX           XXX           XXX           XXX           XXX                                       XXX           XXX           XXX           XXX           XXX           XXX
-// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     XXX           &kp K_STOP2   &kp K_PREV    &kp C_PLAY    &kp K_NEXT    &kp C_BRI_DN                              &kp F12       &kp F7        &kp F8        &kp F9        &kp SLCK      XXX
-// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     XXX           &sk LALT      &sk LMETA     &sk LSHIFT    &sk LCTRL     &kp C_BRI_UP                              &kp F11       &kp F4        &kp F5        &kp F6        &to QRT       XXX
-// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-     XXX           &kp K_MUTE    &kp K_VOL_DN  &kp LS(LC(C)) &kp K_VOL_UP  &kp LS(LC(V)) XXX           XXX           &kp F10       &kp F1        &kp F2        &kp F3        &to BASE      XXX
-// └─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────┘
-                                               XXX           XXX           XXX           XXX           XXX           &kp RET       XXX           XXX
-//                                           ╰─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────╯
-            >;
-        };
-
         symbols_layer {
             bindings = <
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮                           ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
@@ -118,6 +138,22 @@
      XXX           XXX           XXX           &kp BSLH      &kp PIPE      &kp AMPS      XXX           XXX           &kp TILDE     &kp RPAR      &kp RBRC      &kp RBKT      &kp UNDER     XXX
 // └─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────┘
                                                XXX           XXX           ___           XXX           XXX           ___           XXX           XXX
+//                                           ╰─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────╯
+            >;
+        };
+
+        function_layer {
+            bindings = <
+// ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮                           ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+     XXX           XXX           XXX           XXX           XXX           XXX                                       XXX           XXX           XXX           XXX           XXX           XXX
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     XXX           &kp K_STOP2   &kp K_PREV    &kp C_PLAY    &kp K_NEXT    &kp C_BRI_DN                              &kp F12       &kp F7        &kp F8        &kp F9        &kp SLCK      XXX
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     XXX           &sk LALT      &sk LMETA     &sk LSHIFT    &sk LCTRL     &kp C_BRI_UP                              &kp F11       &kp F4        &kp F5        &kp F6        &to QRT       XXX
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     XXX           &kp K_MUTE    &kp K_VOL_DN  &kp LS(LC(C)) &kp K_VOL_UP  &kp LS(LC(V)) XXX           XXX           &kp F10       &kp F1        &kp F2        &kp F3        &to BASE      XXX
+// └─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────┘
+                                               XXX           XXX           XXX           XXX           &kp RET       XXX           XXX           XXX
 //                                           ╰─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────╯
             >;
         };
