@@ -54,7 +54,7 @@
     behaviors {
         ZMK_TAP_DANCE(td_ext, EXT)
         ZMK_TAP_DANCE(td_sym, SYM)
-        ZMK_TAP_DANCE(td_num, FUN)
+        ZMK_TAP_DANCE(td_fun, FUN)
         ZMK_TAP_DANCE(td_num, NUM)
     };
     conditional_layers {
