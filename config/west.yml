@@ -7,7 +7,7 @@ manifest:
   projects:
     - name: zmk
       remote: AutumnalAntlers
-      revision: send-string
+      revision: magic
       import: app/west.yml
   self:
     path: config
