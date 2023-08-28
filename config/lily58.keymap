@@ -31,8 +31,8 @@
             compatible = "zmk,behavior-tap-dance"; \
             label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
             #binding-cells = <0>; \
-            tapping-term-ms = <200>;
-            bindings = <&mo layer>, <&to layer>;
+            tapping-term-ms = <200>; \
+            bindings = <&mo layer>, <&to layer>; \
         };
 
 #include <behaviors.dtsi>
