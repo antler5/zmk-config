@@ -21,9 +21,6 @@
 #define QRT  5
 
 / {
-    chosen {
-        zmk,character_map = &charmap_us;
-    };
     conditional_layers {
       compatible = "zmk,conditional-layers";
         tri_layer {
