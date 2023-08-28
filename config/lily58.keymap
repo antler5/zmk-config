@@ -30,7 +30,7 @@
             if-layers = <EXT SYM>;
             then-layer = <FUN>;
         };
-    }
+    };
     macros {
         dbl_l: dbl_l {
           compatible = "zmk,behavior-macro";
