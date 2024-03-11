@@ -44,14 +44,10 @@
 
 #define BASE 0
 #define SYM 1
-#define SYM_LOCKED 2
-#define EXT 3
-#define EXT_LOCKED 4
-#define FUN 5
-#define FUN_LOCKED 6
-#define NUM 7
-#define NUM_LOCKED 8
-#define QRT 9
+#define EXT 2
+#define FUN 3
+#define NUM 4
+#define QRT 5
 
 / {
     macros {
@@ -77,43 +73,27 @@
         compatible = "zmk,keymap";
 
         base {
-            bindings = < &to QRT &kp N7 &kp N8 &kp N9 &kp N0 &kp N5 &kp N6 &kp N1 &kp N2 &kp N3 &kp N4 XXX &to BASE &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX &to BASE &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &kp Q XXX &kp X &kp K &kp J &kp G &kp W &caps_word &caps_word &kp Z &kp H &kp COMMA &kp DOT &kp SQT XXX XXX &mo NUM &mo EXT &mo EXT &kp SPC &kp SPC XXX XXX >;
+            bindings = < ___ &kp N7 &kp N8 &kp N9 &kp N0 &kp N5 &kp N6 &kp N1 &kp N2 &kp N3 &kp N4 XXX &to BASE &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX &to BASE &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &kp Q XXX &kp X &kp K &kp J &kp G &kp W &caps_word &caps_word &kp Z &kp H &kp COMMA &kp DOT &kp SQT XXX XXX &mo NUM &mo EXT &mo EXT &kp SPC &kp SPC XXX XXX >;
         };
 
         sym {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYM_LOCKED ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT &kp DOLLAR ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
-        };
-
-        sym_locked {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT &kp DOLLAR ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ LAYER_LOCK ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT &kp DOLLAR ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to EXT_LOCKED ___ ___ ___ ___ ___ &kp END &kp RET &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp HOME &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp DELETE &kp BKSP &kp TAB ___ ___ ___ ___ ___ ___ ___ &kp BKSP &kp BKSP ___ ___ >;
-        };
-
-        ext_locked {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp END &kp RET &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp HOME &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp DELETE &kp BKSP &kp TAB ___ ___ ___ ___ ___ ___ ___ &kp BKSP &kp BKSP ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ LAYER_LOCK ___ ___ ___ ___ ___ &kp END ___ &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp HOME &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp DELETE &kp BKSP &kp RET &kp TAB ___ ___ ___ ___ ___ ___ &kp BKSP &kp BKSP ___ ___ >;
         };
 
         fun {
-            bindings = < ___ &kp F7 &kp F8 &kp F9 &kp F10 &kp F5 &kp F6 &kp F1 &kp F2 &kp F3 &kp F4 ___ &to FUN_LOCKED ___ ___ ___ ___ ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
-        };
-
-        fun_locked {
-            bindings = < ___ &kp F7 &kp F8 &kp F9 &kp F10 &kp F5 &kp F6 &kp F1 &kp F2 &kp F3 &kp F4 ___ ___ ___ ___ ___ ___ ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ &kp F7 &kp F8 &kp F9 &kp F10 &kp F5 &kp F6 &kp F1 &kp F2 &kp F3 &kp F4 ___ LAYER_LOCK ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         num {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to NUM_LOCKED ___ &to FUN ___ &to FUN ___ ___ &kp N7 &kp N8 &kp N9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp N0 &kp N4 &kp N5 &kp N6 &kp N0 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N1 &kp N2 &kp N3 ___ ___ ___ ___ ___ ___ &kp N0 &kp N0 ___ ___ >;
-        };
-
-        num_locked {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to FUN ___ &to FUN ___ ___ &kp N7 &kp N8 &kp N9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp N0 &kp N4 &kp N5 &kp N6 &kp N0 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N1 &kp N2 &kp N3 ___ ___ ___ ___ ___ ___ &kp N0 &kp N0 ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ LAYER_LOCK ___ &to FUN ___ &to FUN ___ ___ &kp N7 &kp N8 &kp N9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp N0 &kp N4 &kp N5 &kp N6 &kp N0 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N1 &kp N2 &kp N3 ___ ___ ___ ___ ___ ___ &kp N0 &kp N0 ___ ___ >;
         };
 
         qrt {
-            bindings = < &to BASE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp MINUS &to QRT &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp BKSP &to QRT &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT ___ &kp Z &kp X &kp C &kp V &kp B ___ ___ &kp N &kp M &kp COMMA &kp DOT &kp SLASH ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp MINUS &to QRT &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp BKSP &to QRT &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT ___ &kp Z &kp X &kp C &kp V &kp B ___ ___ &kp N &kp M &kp COMMA &kp DOT &kp SLASH ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
     };

@@ -1,9 +1,28 @@
-#!/usr/bin/env -S guile -s
+#!/usr/bin/env -S guile -e '(lambda _ (with-output-to-file "lily58.keymap" main))' -s
 !#
+
+;;;
+;;; Copyright (c) 2024 antlers <antlers@illucid.net>
+;;;
+;;; This program is free software: you can redistribute it and/or modify
+;;; it under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation, either version 3 of the License, or
+;;; (at your option) any later version.
+;;;
+;;; This program is distributed in the hope that it will be useful,
+;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+;;; GNU General Public License for more details.
+;;;
+;;; You should have received a copy of the GNU General Public License
+;;; along with this program. If not, see <http://www.gnu.org/licenses/>.
+;;;
 
 (use-modules (ice-9 regex)
              (ice-9 match)
-             (ice-9 textual-ports))
+             (ice-9 textual-ports)
+             (srfi srfi-26)
+             (srfi srfi-171))
 
 (define layers
   '(((base-layer . base)
@@ -13,7 +32,7 @@
       (X         ) (kp X      ) (kp K      ) (kp J      ) (kp G      ) (kp W      ) (cap_word) (cap_word) (kp Z      ) (kp H      ) (kp COMMA  ) (kp DOT    ) (kp SQT    ) (X         )
                                              (X         ) (mo NUM    ) (mo EXT    ) (mo EXT  ) (kp SPC  ) (kp SPC    ) (X         ) (X         )
       ))
-    ((symbole-layer . sym)
+    ((symbol-layer . sym)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
       (LAYER_LOCK) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp CARET  ) (kp RBKT   ) (kp LBKT   ) (kp PERCENT) (kp DOLLAR ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp SEMI   ) (kp RPAR   ) (kp LPAR   ) (_         ) (_         ) (_         )
@@ -49,32 +68,38 @@
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))))
 
-(set! layers
-  (let loop ((tail layers)
-             (acc '()))
-    (if (null? tail)
-        (reverse acc)
-        (match (car tail)
-          (`((,name . ,short-name)
-             ,bindings)
-           (if (member '(LAYER_LOCK) bindings)
-               (loop (cdr tail)
-                     (cons* `((,(symbol-append name '_locked) . ,(symbol-append short-name '_locked))
-                              ,(map (lambda (b)
-                                      (if (eq? b '(LAYER_LOCK))
-                                          '(_)
-                                          b))
-                                    bindings))
-                            `((,name . ,short-name)
-                              ,(map (lambda (b)
-                                      (if (eq? b '(LAYER_LOCK))
-                                          `(to ,(symbol-append short-name '_locked))
-                                          b))
-                                    bindings))
-                            acc))
-               (loop (cdr tail) (cons (car tail) acc))))))))
+(define (resolve-layer-locks sexp)
+  (let recur ((tail sexp)
+              (acc '()))
+    (match tail
+      ((? null?) (reverse acc))
+      (`(((,name . ,short-name) ,bindings) . ,rest)
+       (let ((locked (cut symbol-append <> '_locked))
+             (list-replace (lambda (target list-replace)
+                             (list-transduce (treplace `((,target . ,list-replace)))
+                                             rcons bindings))))
+         (recur rest
+           (append (if (member '(LAYER_LOCK) bindings)
+                       `(((,(locked name) . ,(locked short-name))
+                          ,(list-replace '(LAYER_LOCK) '(_)))
+                         ((,name . ,short-name)
+                          ,(list-replace '(LAYER_LOCK) `(to ,(locked short-name)))))
+                       (list (car tail)))
+                   acc)))))))
 
-(define (serialize-binding layer-name)
+(define layer-defines
+  (string-join
+    (let ((i -1))
+      (map (match-lambda
+             (`((,name . ,short-name) ,bindings)
+              (string-append
+                "#define "
+                (string-upcase (symbol->string short-name)) " "
+                (begin (set! i (1+ i)) (number->string i)))))
+           layers))
+    "\n"))
+
+(define (serialize-bindings layer-name)
   (lambda (binding)
     (match binding
       ;; TODO: Add dupe layers, serialize in their context
@@ -99,6 +124,19 @@
       ;; TEMP
       (else (string-join (map (lambda (x) (format #f "~a" x)) binding) " ")))))
 
+(define layer-bindings
+  (string-join
+    (map (match-lambda
+           (`((,name . ,short-name) ,bindings)
+            (string-append
+              "        "
+              (symbol->string short-name) " {\n            bindings = < "
+              (string-join (map (serialize-bindings name) bindings) " ")
+              " >;\n        };\n"
+              )))
+         layers)
+    "\n"))
+
 (define (make-subst pattern item)
   (lambda (str)
     (call-with-output-string
@@ -108,30 +146,6 @@
           'pre (format #f "~a" item) 'post)))))
 
 (define (main)
-  (display
-    ((compose (make-subst "\\{\\{LAYER_NAMES\\}\\}"
-                (string-join
-                  (let ((i -1))
-                    (map (match-lambda
-                           (`((,name . ,short-name) ,bindings)
-                            (string-append
-                              "#define "
-                              (string-upcase (symbol->string short-name)) " "
-                              (begin (set! i (1+ i)) (number->string i)))))
-                         layers))
-                  "\n"))
-              (make-subst "\\{\\{LAYER_MAPS\\}\\}"
-                (string-join
-                  (map (match-lambda
-                         (`((,name . ,short-name) ,bindings)
-                          (string-append
-                            "        "
-                            (symbol->string short-name) " {\n            bindings = < "
-                            (string-join (map (serialize-binding name) bindings) " ")
-                            " >;\n        };\n"
-                            )))
-                       layers)
-                  "\n")))
-     (call-with-input-file "lily58.keymap.in" get-string-all))))
-
-(with-output-to-file "lily58.keymap" main)
+  (display ((compose (make-subst "\\{\\{LAYER_DEFINES\\}\\}" layer-defines)
+                     (make-subst "\\{\\{LAYER_BINDINGS\\}\\}" layer-bindings))
+            (call-with-input-file "lily58.keymap.in" get-string-all))))

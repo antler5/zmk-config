@@ -42,7 +42,7 @@
 #define XXX &none
 #define ___ &trans
 
-{{LAYER_NAMES}}
+{{LAYER_DEFINES}}
 
 / {
     macros {
@@ -67,6 +67,6 @@
     keymap {
         compatible = "zmk,keymap";
 
-{{LAYER_MAPS}}
+{{LAYER_BINDINGS}}
     };
 };
