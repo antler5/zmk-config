@@ -61,13 +61,13 @@
     };
     behaviors {
       SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
-      SIMPLE_MORPH(comma_inner_morph, CT, &kp SEMI, &kp GT)
+      SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMI, &kp GT)
       SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
-      SIMPLE_MORPH(dot_inner_morph, CT, &kp COLON, &kp LT)
+      SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp LT)
       SIMPLE_MORPH(sqt_morph, SFT, &kp SQT, &sqt_inner_morph)
-      SIMPLE_MORPH(sqt_inner_morph, CT, &kp DQT, &kp GRAVE)
+      SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
       SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
-      SIMPLE_MORPH(excl_inner_morph, CT, &kp QMARK, &kp PIPE)
+      SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
       SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
     };
     // combos {

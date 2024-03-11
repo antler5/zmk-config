@@ -40,7 +40,7 @@
       "SIMPLE_MORPH(" a "_morph"
       ", SFT" ", &kp " A ", &" a "_inner_morph)\n"
       "SIMPLE_MORPH(" a "_inner_morph"
-      ", CT" ", &kp " S ", &kp " C ")")))
+      ", CTL" ", &kp " S ", &kp " C ")")))
 
 (define behaviors
   (string-join
