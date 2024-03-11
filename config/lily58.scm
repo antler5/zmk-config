@@ -1,7 +1,5 @@
 #!/usr/bin/env -S guile -e '(lambda _ (with-output-to-file "lily58.keymap" main))' -s
 !#
-
-;;;
 ;;; Copyright (c) 2024 antlers <antlers@illucid.net>
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
@@ -16,76 +14,100 @@
 ;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program. If not, see <http://www.gnu.org/licenses/>.
-;;;
 
 (use-modules (ice-9 regex)
              (ice-9 match)
              (ice-9 textual-ports)
+             (srfi srfi-11)
              (srfi srfi-26)
              (srfi srfi-171))
 
+(define-syntax-rule (simple-morph a s) ; alpha, shift
+  (let*-values (((a s) (apply values
+                         (map symbol->string (list 'a 's))))
+                ((A S) (apply values
+                         (map string-upcase (list a s)))))
+    (string-append
+      "SIMPLE_MORPH(" a "_morph"
+      ", SFT" ", &kp " A ", &kp " S ")")))
+
+(define-syntax-rule (simple-morph* a s c) ; alpha, shift, ctrl
+  (let*-values (((a s c) (apply values
+                           (map symbol->string (list 'a 's 'c))))
+                ((A S C) (apply values
+                           (map string-upcase (list a s c)))))
+    (string-append
+      "SIMPLE_MORPH(" a "_morph"
+      ", SFT" ", &kp " A ", &" a "_inner_morph)\n"
+      "SIMPLE_MORPH(" a "_inner_morph"
+      ", CT" ", &kp " S ", &kp " C ")")))
+
+(define behaviors
+  (string-join
+    ;; TODO: Bind a backup for ctrl-comma (etc.)
+    (list (simple-morph* comma semi gt)
+          (simple-morph* dot colon lt)
+          (simple-morph* sqt dqt grave)
+          (simple-morph* excl qmark pipe)
+          (simple-morph fslh bslh)
+          )
+    "\n"))
+
+(define macros
+  "\
+dbl_l: dbl_l {
+  compatible = \"zmk,behavior-macro\";
+  label = \"ZM_dbl_l\";
+  #binding-cells = <0>;
+  wait-ms = <30>;
+  tap-ms = <40>;
+  bindings = <&kp L &kp L>;
+};")
+
 (define layers
   '(((base-layer . base)
-     ((_         ) (kp N7     ) (kp N8     ) (kp N9     ) (kp N0     ) (kp N5     )                       (kp N6     ) (kp N1     ) (kp N2     ) (kp  N3    ) (kp N4     ) (X         )
-      (to BASE   ) (kp V      ) (kp M      ) (kp L      ) (kp C      ) (kp P      )                       (kp B      ) (key_repeat) (kp U      ) (kp O      ) (kp Q      ) (X         )
-      (to BASE   ) (kp S      ) (kp T      ) (kp R      ) (kp D      ) (kp Y      )                       (kp F      ) (kp N      ) (kp E      ) (kp A      ) (kp I      ) (kp Q      )
-      (X         ) (kp X      ) (kp K      ) (kp J      ) (kp G      ) (kp W      ) (cap_word) (cap_word) (kp Z      ) (kp H      ) (kp COMMA  ) (kp DOT    ) (kp SQT    ) (X         )
-                                             (X         ) (mo NUM    ) (mo EXT    ) (mo EXT  ) (kp SPC  ) (kp SPC    ) (X         ) (X         )
+     ((X         ) (X         ) (X         ) (X         ) (X         ) (X         )                       (X         ) (X         ) (X         ) (X         ) (X         ) (X         )
+      (X         ) (kp V      ) (kp M      ) (kp L      ) (kp C      ) (kp P      )                       (kp B      ) (key_repeat) (kp U      ) (kp O      ) (kp Q      ) (X         )
+      (X         ) (kp S      ) (kp T      ) (kp R      ) (kp D      ) (kp Y      )                       (kp F      ) (kp N      ) (kp E      ) (kp A      ) (kp I      ) (sm SQT    )
+      (X         ) (kp X      ) (kp K      ) (kp J      ) (kp G      ) (kp W      ) (X       ) (X       ) (kp Z      ) (kp H      ) (sm COMMA  ) (sm DOT    ) (sm EXCL   ) (X         )
+                                             (to BASE   ) (mo NUM    ) (mo EXT    ) (X       ) (X       ) (kp SPC    ) (X         ) (X         )
+      ))
+    ((number-layer . num)
+     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (to SYM    ) (to FUN    ) (to EXT    ) (to NUM    )                       (kp STAR   ) (kp N7     ) (kp N8     ) (kp N9     ) (sm FSLH   ) (_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (mo SYM    ) (sk LCTRL  ) (_         )                       (kp COLON  ) (kp N4     ) (kp N5     ) (kp N6     ) (kp PLUS   ) (kp MINUS  )
+      (_         ) (_         ) (_         ) (caps_word ) (_         ) (_         ) (_       ) (_       ) (kp PERCENT) (kp N1     ) (kp N2     ) (kp N3     ) (kp LT     ) (kp GT     )
+                                             (_         ) (_         ) (_         ) (_       ) (_       ) (kp N0     ) (_         ) (_         )
+      ))
+    ((extend-layer . ext) ; ie. nav
+     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (kp PG_DN  ) (kp PG_UP  ) (_         ) (_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (kp LEFT   ) (kp DOWN   ) (kp UP     ) (kp RIGHT  ) (kp HOME   )
+      (_         ) (kp K_UNDO ) (kp K_CUT  ) (kp K_COPY ) (kp K_PASTE) (_         ) (_       ) (_       ) (kp INSERT ) (kp DELETE ) (kp BKSP   ) (kp TAB    ) (_         ) (kp END    )
+                                             (_         ) (_         ) (_         ) (_       ) (_       ) (kp BKSP   ) (_         ) (_         )
       ))
     ((symbol-layer . sym)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (LAYER_LOCK) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp CARET  ) (kp RBKT   ) (kp LBKT   ) (kp PERCENT) (kp DOLLAR ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp CARET  ) (kp RBKT   ) (kp LBKT   ) (kp PERCENT) (_         ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp SEMI   ) (kp RPAR   ) (kp LPAR   ) (_         ) (_         ) (_         )
       (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (kp RBRC   ) (kp LBRC   ) (_         ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
-    ((extend-layer . ext) ; ie. nav
-     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (LAYER_LOCK) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp END    ) (_         ) (kp PG_DN  ) (kp PG_UP  ) (_         ) (_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp HOME   ) (kp LEFT   ) (kp DOWN   ) (kp UP     ) (kp RIGHT  ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp DELETE ) (kp BKSP   ) (kp RET    ) (kp TAB    ) (_         ) (_         )
-                                             (_         ) (_         ) (_         ) (_       ) (kp BKSP ) (kp BKSP   ) (_         ) (_         )
-      ))
     ((function-layer . fun)
-     ((_         ) (kp F7     ) (kp F8     ) (kp F9     ) (kp F10    ) (kp F5     )                       (kp F6     ) (kp F1     ) (kp F2     ) (kp F3     ) (kp F4     ) (_         )
-      (LAYER_LOCK) (_         ) (_         ) (to BASE   ) (to QRT    ) (_         )                       (kp F12    ) (kp F7     ) (kp F8     ) (kp F9     ) (_         ) (_         )
+     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (to BASE   ) (to QRT    ) (_         )                       (kp F12    ) (kp F7     ) (kp F8     ) (kp F9     ) (_         ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp F11    ) (kp F4     ) (kp F5     ) (kp F6     ) (_         ) (_         )
       (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
-    ((number-layer . num)
-     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (LAYER_LOCK) (_         ) (to FUN    ) (_         ) (to FUN    ) (_         )                       (_         ) (kp N7     ) (kp N8     ) (kp N9     ) (_         ) (_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp N0     ) (kp N4     ) (kp N5     ) (kp N6     ) (kp N0     ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (kp N1     ) (kp N2     ) (kp N3     ) (_         ) (_         )
-                                             (_         ) (_         ) (_         ) (_       ) (kp N0   ) (kp N0     ) (_         ) (_         )
-      ))
     ((qwerty-layer . qrt)
-     ((_         ) (kp N1     ) (kp N2     ) (kp N3     ) (kp N4     ) (kp N5     )                       (kp N6     ) (kp N7     ) (kp N8     ) (kp N9     ) (kp N0     ) (kp MINUS  )
-      (to QRT    ) (kp Q      ) (kp W      ) (kp E      ) (kp R      ) (kp T      )                       (kp Y      ) (kp U      ) (kp I      ) (kp O      ) (kp P      ) (kp BKSP   )
-      (to QRT    ) (kp A      ) (kp S      ) (kp D      ) (kp F      ) (kp G      )                       (kp H      ) (kp J      ) (kp K      ) (kp L      ) (kp SEMI   ) (kp SQT    )
+     ((_         ) (kp N1     ) (kp N2     ) (kp N3     ) (kp N4     ) (kp N5     )                       (kp N6     ) (kp N7     ) (kp N8     ) (kp N9     ) (kp N0     ) (_         )
+      (_         ) (kp Q      ) (kp W      ) (kp E      ) (kp R      ) (kp T      )                       (kp Y      ) (kp U      ) (kp I      ) (kp O      ) (kp P      ) (_         )
+      (_         ) (kp A      ) (kp S      ) (kp D      ) (kp F      ) (kp G      )                       (kp H      ) (kp J      ) (kp K      ) (kp L      ) (kp SEMI   ) (kp SQT    )
       (_         ) (kp Z      ) (kp X      ) (kp C      ) (kp V      ) (kp B      ) (_       ) (_       ) (kp N      ) (kp M      ) (kp COMMA  ) (kp DOT    ) (kp SLASH  ) (_         )
-                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
-      ))))
-
-(define (resolve-layer-locks sexp)
-  (let recur ((tail sexp)
-              (acc '()))
-    (match tail
-      ((? null?) (reverse acc))
-      (`(((,name . ,short-name) ,bindings) . ,rest)
-       (let ((locked (cut symbol-append <> '_locked))
-             (list-replace (lambda (target list-replace)
-                             (list-transduce (treplace `((,target . ,list-replace)))
-                                             rcons bindings))))
-         (recur rest
-           (append (if (member '(LAYER_LOCK) bindings)
-                       `(((,(locked name) . ,(locked short-name))
-                          ,(list-replace '(LAYER_LOCK) '(_)))
-                         ((,name . ,short-name)
-                          ,(list-replace '(LAYER_LOCK) `(to ,(locked short-name)))))
-                       (list (car tail)))
-                   acc)))))))
+                                             (to QRT    ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
+       ))
+    ))
 
 (define layer-defines
   (string-join
@@ -99,18 +121,21 @@
            layers))
     "\n"))
 
+(define simple-behaviors
+  '(cap_word
+    key_repeat
+    td_fun))
+
 (define (serialize-bindings layer-name)
   (lambda (binding)
     (match binding
-      ;; TODO: Add dupe layers, serialize in their context
-      ;; (`(LAYER_LOCK)
-      ;;   (if (member layer-name (list base qwerty))
-      ;;       (string-append "&to " (symbol->string layer-name))))
-      (`(td_fun) "&td_fun") ; This should come from a list.
-      (`(key_repeat) "&key_repeat")
-      (`(cap_word) "&caps_word")
       (`(X) "XXX")
       (`(_) "___")
+      ((and `(,behavior)
+            (? (lambda _ (member behavior simple-behaviors))))
+       (string-append "&" (symbol->string behavior)))
+      (`(sm ,keycode) ; simple-morph
+       (string-append "&" (string-downcase (symbol->string keycode)) "_morph"))
       (`(to ,layer)
        (string-append "&to " (string-upcase (symbol->string layer))))
       (`(lt ,layer)
@@ -122,7 +147,7 @@
       (`(sk ,mod)
        (string-append "&sk " (symbol->string mod)))
       ;; TEMP
-      (else (string-join (map (lambda (x) (format #f "~a" x)) binding) " ")))))
+      (else (string-join (map (cut format #f "~a" <>) binding) " ")))))
 
 (define layer-bindings
   (string-join
@@ -147,5 +172,11 @@
 
 (define (main)
   (display ((compose (make-subst "\\{\\{LAYER_DEFINES\\}\\}" layer-defines)
+                     (make-subst "\\{\\{MACROS\\}\\}" macros)
+                     (make-subst "\\{\\{BEHAVIORS\\}\\}" behaviors)
                      (make-subst "\\{\\{LAYER_BINDINGS\\}\\}" layer-bindings))
             (call-with-input-file "lily58.keymap.in" get-string-all))))
+
+;; Local Variables:
+;; whitespace-style: '(face missing-newline-at-eof tab-mark)
+;; End:

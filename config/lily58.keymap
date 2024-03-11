@@ -1,38 +1,19 @@
 /* -*- mode: c -*-
- *
  * Copyright (c) 2024 antlers <antlers@illucid.net>
  *
- * SPDX-License-Identifier: MIT
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the “Software”), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-#define ZMK_TAP_DANCE_STRINGIFY(x) #x
-#define ZMK_TAP_DANCE(name, layer) \
-    name: name { \
-            compatible = "zmk,behavior-tap-dance"; \
-            label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
-            #binding-cells = <0>; \
-            tapping-term-ms = <200>; \
-            bindings = <&mo layer>, <&to layer>; \
-        };
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
@@ -42,24 +23,53 @@
 #define XXX &none
 #define ___ &trans
 
+#define ZMK_TAP_DANCE_STRINGIFY(x) #x
+#define ZMK_TAP_DANCE(name, layer) \
+  name: name { \
+    compatible = "zmk,behavior-tap-dance"; \
+    label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
+    #binding-cells = <0>; \
+    tapping-term-ms = <200>; \
+    bindings = <&mo layer>, <&to layer>; \
+  };
+
+// from urob's config
+#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
+  NAME: NAME { \
+    compatible = "zmk,behavior-mod-morph"; \
+    mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+    bindings = <BINDING1>, <BINDING2>; \
+  };
+
 #define BASE 0
-#define SYM 1
+#define NUM 1
 #define EXT 2
-#define FUN 3
-#define NUM 4
+#define SYM 3
+#define FUN 4
 #define QRT 5
 
 / {
     macros {
         dbl_l: dbl_l {
-          compatible = "zmk,behavior-macro";
-          label = "ZM_dbl_l";
-          #binding-cells = <0>;
-          wait-ms = <30>;
-          tap-ms = <40>;
-          bindings = <&kp L &kp L>;
-        };
+  compatible = "zmk,behavior-macro";
+  label = "ZM_dbl_l";
+  #binding-cells = <0>;
+  wait-ms = <30>;
+  tap-ms = <40>;
+  bindings = <&kp L &kp L>;
+};
     };
+    behaviors {
+      SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
+SIMPLE_MORPH(comma_inner_morph, CT, &kp SEMI, &kp GT)
+SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
+SIMPLE_MORPH(dot_inner_morph, CT, &kp COLON, &kp LT)
+SIMPLE_MORPH(sqt_morph, SFT, &kp SQT, &sqt_inner_morph)
+SIMPLE_MORPH(sqt_inner_morph, CT, &kp DQT, &kp GRAVE)
+SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
+SIMPLE_MORPH(excl_inner_morph, CT, &kp QMARK, &kp PIPE)
+SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
+    }
     // combos {
     //     compatible = "zmk,combos";
     //     combo_l_mr {
@@ -73,27 +83,27 @@
         compatible = "zmk,keymap";
 
         base {
-            bindings = < ___ &kp N7 &kp N8 &kp N9 &kp N0 &kp N5 &kp N6 &kp N1 &kp N2 &kp N3 &kp N4 XXX &to BASE &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX &to BASE &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &kp Q XXX &kp X &kp K &kp J &kp G &kp W &caps_word &caps_word &kp Z &kp H &kp COMMA &kp DOT &kp SQT XXX XXX &mo NUM &mo EXT &mo EXT &kp SPC &kp SPC XXX XXX >;
-        };
-
-        sym {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ LAYER_LOCK ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT &kp DOLLAR ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
-        };
-
-        ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ LAYER_LOCK ___ ___ ___ ___ ___ &kp END ___ &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp HOME &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp DELETE &kp BKSP &kp RET &kp TAB ___ ___ ___ ___ ___ ___ &kp BKSP &kp BKSP ___ ___ >;
-        };
-
-        fun {
-            bindings = < ___ &kp F7 &kp F8 &kp F9 &kp F10 &kp F5 &kp F6 &kp F1 &kp F2 &kp F3 &kp F4 ___ LAYER_LOCK ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX XXX &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &sqt_morph XXX &kp X &kp K &kp J &kp G &kp W XXX XXX &kp Z &kp H &comma_morph &dot_morph &excl_morph XXX &to BASE &mo NUM &mo EXT XXX XXX &kp SPC XXX XXX >;
         };
 
         num {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ LAYER_LOCK ___ &to FUN ___ &to FUN ___ ___ &kp N7 &kp N8 &kp N9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp N0 &kp N4 &kp N5 &kp N6 &kp N0 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N1 &kp N2 &kp N3 ___ ___ ___ ___ ___ ___ &kp N0 &kp N0 ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYM &to FUN &to EXT &to NUM &kp STAR &kp N7 &kp N8 &kp N9 &fslh_morph ___ ___ &sk LALT &sk LMETA &mo SYM &sk LCTRL ___ &kp COLON &kp N4 &kp N5 &kp N6 &kp PLUS &kp MINUS ___ ___ ___ caps_word ___ ___ ___ ___ &kp PERCENT &kp N1 &kp N2 &kp N3 &kp LT &kp GT ___ ___ ___ ___ ___ &kp N0 ___ ___ >;
+        };
+
+        ext {
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
+        };
+
+        sym {
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+        };
+
+        fun {
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         qrt {
-            bindings = < ___ &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp MINUS &to QRT &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp BKSP &to QRT &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT ___ &kp Z &kp X &kp C &kp V &kp B ___ ___ &kp N &kp M &kp COMMA &kp DOT &kp SLASH ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 ___ ___ &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P ___ ___ &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT ___ &kp Z &kp X &kp C &kp V &kp B ___ ___ &kp N &kp M &kp COMMA &kp DOT &kp SLASH ___ &to QRT ___ ___ ___ ___ ___ ___ ___ >;
         };
 
     };
