@@ -100,6 +100,13 @@ dbl_l: dbl_l {
       (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
+    ((system-layer . sys)
+     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (          ) (&sys_reset) (&bootloader)                      (&bootloader)(&sys_reset) (_         ) (_         ) (_         ) (_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
+      ))
     ((qwerty-layer . qrt)
      ((_         ) (kp N1     ) (kp N2     ) (kp N3     ) (kp N4     ) (kp N5     )                       (kp N6     ) (kp N7     ) (kp N8     ) (kp N9     ) (kp N0     ) (_         )
       (_         ) (kp Q      ) (kp W      ) (kp E      ) (kp R      ) (kp T      )                       (kp Y      ) (kp U      ) (kp I      ) (kp O      ) (kp P      ) (_         )
@@ -122,7 +129,7 @@ dbl_l: dbl_l {
     "\n"))
 
 (define simple-behaviors
-  '(cap_word
+  '(caps_word
     key_repeat
     td_fun))
 

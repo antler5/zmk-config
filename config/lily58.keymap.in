@@ -37,6 +37,7 @@
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
   NAME: NAME { \
     compatible = "zmk,behavior-mod-morph"; \
+    #binding-cells = <0>; \
     mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
     bindings = <BINDING1>, <BINDING2>; \
   };
