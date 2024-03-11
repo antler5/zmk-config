@@ -45,11 +45,11 @@
 
 / {
     macros {
-        {{MACROS}}
+      {{MACROS}}
     };
     behaviors {
       {{BEHAVIORS}}
-    }
+    };
     // combos {
     //     compatible = "zmk,combos";
     //     combo_l_mr {
@@ -60,8 +60,7 @@
     //     };
     // };
     keymap {
-        compatible = "zmk,keymap";
-
-{{LAYER_BINDINGS}}
+      compatible = "zmk,keymap";
+      {{LAYER_BINDINGS}}
     };
 };
