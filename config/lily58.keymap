@@ -70,7 +70,6 @@ SIMPLE_MORPH(sqt_morph, SFT, &kp SQT, &sqt_inner_morph)
 SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
 SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
 SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
-SIMPLE_MORPH(at_morph, SFT, &kp AT, &kp PERCENT)
 SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
 SIMPLE_MORPH(star_morph, SFT, &kp STAR, &kp HASH)
 SIMPLE_MORPH(tilde_morph, SFT, &kp TILDE, &kp AMPS)
@@ -101,11 +100,11 @@ SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4
         };
 
         num {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYS &to SYM &to FUN &to EXT &to NUM &star_morph &kp N7 &kp N8 &kp N9 &fslh_morph &tilde_morph ___ &sk LALT &sk LMETA &mo SYM &sk LCTRL ___ &kp COLON &kp N4 &kp N5 &kp N6 &kp PLUS &kp MINUS ___ ___ ___ &caps_word ___ ___ ___ ___ &at_morph &kp N1 &kp N2 &kp N3 &kp LT &kp GT ___ ___ ___ ___ ___ &kp N0 ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYS &to SYM &to FUN &to EXT &to NUM &star_morph &kp N7 &kp N8 &kp N9 &fslh_morph &tilde_morph ___ &sk LALT &sk LMETA &mo SYM &sk LCTRL ___ &kp COLON &kp N4 &kp N5 &kp N6 &kp PLUS &kp MINUS ___ ___ ___ &caps_word ___ ___ ___ ___ &kp AT &kp N1 &kp N2 &kp N3 &kp LT &kp GT ___ ___ ___ ___ ___ &kp N0 ___ ___ >;
         };
 
         ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CAROT &kp DOLLAR ___ ___ &kp ESC &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N0 &kp CARET &kp DOLLAR &kp PERCENT ___ &kp PSCRN &kp ESC &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
         };
 
         fun {
@@ -113,7 +112,7 @@ SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4
         };
 
         sym {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBKT &kp LBKT ___ ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         sys {
