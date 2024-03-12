@@ -99,7 +99,7 @@ dbl_l: dbl_l {
       ))
     ((extend-layer . ext) ; ie. nav
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (kp PG_DN  ) (kp PG_UP  ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (kp PSCRN  ) (kp PG_DN  ) (kp PG_UP  ) (_         ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (kp LEFT   ) (kp DOWN   ) (kp UP     ) (kp RIGHT  ) (kp HOME   )
       (_         ) (kp K_UNDO ) (kp K_CUT  ) (kp K_COPY ) (kp K_PASTE) (_         ) (_       ) (_       ) (kp INSERT ) (kp DELETE ) (kp BKSP   ) (kp TAB    ) (_         ) (kp END    )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (kp BKSP   ) (_         ) (_         )
@@ -108,7 +108,7 @@ dbl_l: dbl_l {
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
       (_         ) (_         ) (_         ) (to BASE   ) (to QRT    ) (_         )                       (kp F12    ) (kp F7     ) (kp F8     ) (kp F9     ) (_         ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp F11    ) (kp F4     ) (kp F5     ) (kp F6     ) (_         ) (_         )
-      (_         ) (kp SLCK   ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
+      (_         ) (kp KP_CLEAR)(kp KP_NUM ) (kp CAPS   ) (kp SLCK   ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
     ((symbol-layer . sym)
@@ -161,7 +161,7 @@ dbl_l: dbl_l {
        (string-append "&" (symbol->string behavior)))
       (`(sm ,keycode) ; simple-morph
        (string-append "&" (string-downcase (symbol->string keycode)) "_morph"))
-      (`(sm ,n) ; bluetooth-morph
+      (`(bm ,n) ; bluetooth-morph
        (string-append "&bt_morph_" (number->string n)))
       (`(to ,layer)
        (string-append "&to " (string-upcase (symbol->string layer))))
