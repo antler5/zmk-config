@@ -44,13 +44,28 @@
 
 (define behaviors
   (string-join
-    ;; TODO: Bind a backup for ctrl-comma (etc.)
-    (list (simple-morph* comma semi gt)
-          (simple-morph* dot colon lt)
-          (simple-morph* sqt dqt grave)
-          (simple-morph* excl qmark pipe)
-          (simple-morph fslh bslh)
-          )
+    (append
+      ;; TODO: Bind a backup for ctrl-comma (etc.)?
+      (list (simple-morph* comma semi gt)
+            (simple-morph* dot colon lt)
+            (simple-morph* sqt dqt grave)
+            (simple-morph* excl qmark pipe)
+            (simple-morph fslh bslh))
+      (map (lambda (n)
+             (format #f "\
+bt_morph_~d: bt_morph_~@*~d { \\
+  compatible = \"zmk,behavior-mod-morph\"; \\
+  #binding-cells = <0>; \\
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \\
+  bindings = <&bt BT_SEL ~@*~d>, <&bt_inner_morph_~@*~d>; \\
+}; \\
+bt_inner_morph_~@*~d: bt_morph_~@*~d { \\
+  compatible = \"zmk,behavior-mod-morph\"; \\
+  #binding-cells = <0>; \\
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \\
+  bindings = <&bt BT_CLR ~@*~d>, <&bt BT_DISC ~@*~d>; \\
+};" n))
+           (iota 5)))
     "\n"))
 
 (define macros
@@ -65,7 +80,7 @@ dbl_l: dbl_l {
 };")
 
 (define layers
-  '(((base-layer . base)
+  `(((base-layer . base)
      ((X         ) (X         ) (X         ) (X         ) (X         ) (X         )                       (X         ) (X         ) (X         ) (X         ) (X         ) (X         )
       (X         ) (kp V      ) (kp M      ) (kp L      ) (kp C      ) (kp P      )                       (kp B      ) (key_repeat) (kp U      ) (kp O      ) (kp Q      ) (X         )
       (X         ) (kp S      ) (kp T      ) (kp R      ) (kp D      ) (kp Y      )                       (kp F      ) (kp N      ) (kp E      ) (kp A      ) (kp I      ) (sm SQT    )
@@ -74,7 +89,7 @@ dbl_l: dbl_l {
       ))
     ((number-layer . num)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (to SYM    ) (to FUN    ) (to EXT    ) (to NUM    )                       (kp STAR   ) (kp N7     ) (kp N8     ) (kp N9     ) (sm FSLH   ) (_         )
+      (_         ) (to SYS    ) (to SYM    ) (to FUN    ) (to EXT    ) (to NUM    )                       (kp STAR   ) (kp N7     ) (kp N8     ) (kp N9     ) (sm FSLH   ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (mo SYM    ) (sk LCTRL  ) (_         )                       (kp COLON  ) (kp N4     ) (kp N5     ) (kp N6     ) (kp PLUS   ) (kp MINUS  )
       (_         ) (_         ) (_         ) (caps_word ) (_         ) (_         ) (_       ) (_       ) (kp PERCENT) (kp N1     ) (kp N2     ) (kp N3     ) (kp LT     ) (kp GT     )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (kp N0     ) (_         ) (_         )
@@ -86,13 +101,6 @@ dbl_l: dbl_l {
       (_         ) (kp K_UNDO ) (kp K_CUT  ) (kp K_COPY ) (kp K_PASTE) (_         ) (_       ) (_       ) (kp INSERT ) (kp DELETE ) (kp BKSP   ) (kp TAB    ) (_         ) (kp END    )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (kp BKSP   ) (_         ) (_         )
       ))
-    ((symbol-layer . sym)
-     ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp CARET  ) (kp RBKT   ) (kp LBKT   ) (kp PERCENT) (_         ) (_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp SEMI   ) (kp RPAR   ) (kp LPAR   ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (kp RBRC   ) (kp LBRC   ) (_         ) (_         ) (_         )
-                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
-      ))
     ((function-layer . fun)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
       (_         ) (_         ) (_         ) (to BASE   ) (to QRT    ) (_         )                       (kp F12    ) (kp F7     ) (kp F8     ) (kp F9     ) (_         ) (_         )
@@ -100,11 +108,18 @@ dbl_l: dbl_l {
       (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
-    ((system-layer . sys)
+    ((symbol-layer . sym)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (          ) (&sys_reset) (&bootloader)                      (&bootloader)(&sys_reset) (_         ) (_         ) (_         ) (_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp CARET  ) (kp RBKT   ) (kp LBKT   ) (kp PERCENT) (_         ) (_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp SEMI   ) (kp RPAR   ) (kp LPAR   ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (kp RBRC   ) (kp LBRC   ) (_         ) (_         ) (_         )
+                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
+      ))
+    ((system-layer . sys)
+     ((_         ) (_         ) (_         ) (_         ) (_         ) (&bootloader)                      (&bootloader)(_         ) (_         ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (&sys_reset)                       (&sys_reset) (_         ) (_         ) (_         ) (&bt CLR_ALL)(_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (bm 4      ) (bm 5      ) (_         ) (&bt BT_PRV) (&bt BT_NXT)
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (bm 1      ) (bm 2      ) (bm 3      ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
     ((qwerty-layer . qrt)
@@ -143,6 +158,8 @@ dbl_l: dbl_l {
        (string-append "&" (symbol->string behavior)))
       (`(sm ,keycode) ; simple-morph
        (string-append "&" (string-downcase (symbol->string keycode)) "_morph"))
+      (`(sm ,n) ; bluetooth-morph
+       (string-append "&bt_morph_" (number->string n)))
       (`(to ,layer)
        (string-append "&to " (string-upcase (symbol->string layer))))
       (`(lt ,layer)

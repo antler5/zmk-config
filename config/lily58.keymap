@@ -17,7 +17,7 @@
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-// #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/bt.h>
 // #include <dt-bindings/zmk/ext_power.h>
 
 #define XXX &none
@@ -45,8 +45,8 @@
 #define BASE 0
 #define NUM 1
 #define EXT 2
-#define SYM 3
-#define FUN 4
+#define FUN 3
+#define SYM 4
 #define SYS 5
 #define QRT 6
 
@@ -71,6 +71,66 @@ SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
 SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
 SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
 SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
+bt_morph_0: bt_morph_0 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_SEL 0>, <&bt_inner_morph_0>; \
+}; \
+bt_inner_morph_0: bt_morph_0 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_CLR 0>, <&bt BT_DISC 0>; \
+};
+bt_morph_1: bt_morph_1 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_SEL 1>, <&bt_inner_morph_1>; \
+}; \
+bt_inner_morph_1: bt_morph_1 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_CLR 1>, <&bt BT_DISC 1>; \
+};
+bt_morph_2: bt_morph_2 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_SEL 2>, <&bt_inner_morph_2>; \
+}; \
+bt_inner_morph_2: bt_morph_2 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_CLR 2>, <&bt BT_DISC 2>; \
+};
+bt_morph_3: bt_morph_3 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_SEL 3>, <&bt_inner_morph_3>; \
+}; \
+bt_inner_morph_3: bt_morph_3 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_CLR 3>, <&bt BT_DISC 3>; \
+};
+bt_morph_4: bt_morph_4 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_SEL 4>, <&bt_inner_morph_4>; \
+}; \
+bt_inner_morph_4: bt_morph_4 { \
+  compatible = "zmk,behavior-mod-morph"; \
+  #binding-cells = <0>; \
+  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+  bindings = <&bt BT_CLR 4>, <&bt BT_DISC 4>; \
+};
     };
     // combos {
     //     compatible = "zmk,combos";
@@ -88,23 +148,23 @@ SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
         };
 
         num {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYM &to FUN &to EXT &to NUM &kp STAR &kp N7 &kp N8 &kp N9 &fslh_morph ___ ___ &sk LALT &sk LMETA &mo SYM &sk LCTRL ___ &kp COLON &kp N4 &kp N5 &kp N6 &kp PLUS &kp MINUS ___ ___ ___ &caps_word ___ ___ ___ ___ &kp PERCENT &kp N1 &kp N2 &kp N3 &kp LT &kp GT ___ ___ ___ ___ ___ &kp N0 ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYS &to SYM &to FUN &to EXT &to NUM &kp STAR &kp N7 &kp N8 &kp N9 &fslh_morph ___ ___ &sk LALT &sk LMETA &mo SYM &sk LCTRL ___ &kp COLON &kp N4 &kp N5 &kp N6 &kp PLUS &kp MINUS ___ ___ ___ &caps_word ___ ___ ___ ___ &kp PERCENT &kp N1 &kp N2 &kp N3 &kp LT &kp GT ___ ___ ___ ___ ___ &kp N0 ___ ___ >;
         };
 
         ext {
             bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
         };
 
-        sym {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
-        };
-
         fun {
             bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
+        sym {
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CARET &kp RBKT &kp LBKT &kp PERCENT ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+        };
+
         sys {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___  &sys_reset &bootloader &bootloader &sys_reset ___ ___ ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ &bootloader &bootloader ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &sys_reset &sys_reset ___ ___ ___ &bt CLR_ALL ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ bm 4 bm 5 ___ &bt BT_PRV &bt BT_NXT ___ ___ ___ ___ ___ ___ ___ ___ ___ bm 1 bm 2 bm 3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         qrt {
