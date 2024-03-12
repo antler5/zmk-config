@@ -47,8 +47,8 @@
 / {
     macros {
       dbl_l: dbl_l {
-        compatible = \"zmk,behavior-macro\";
-        label = \"ZM_dbl_l\";
+        compatible = "zmk,behavior-macro";
+        label = "ZM_dbl_l";
         #binding-cells = <0>;
         wait-ms = <30>;
         tap-ms = <40>;
