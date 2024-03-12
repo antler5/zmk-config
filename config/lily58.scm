@@ -53,7 +53,7 @@
             (simple-morph fslh bslh))
       (map (lambda (n)
              (format #f "\
-SIMPLE_MORPH(bt_morph_~@*~d, SHFT, &bt BT_SEL ~@*~d, &bt_inner_morph_~@*~d)
+SIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt_inner_morph_~@*~d)
 SIMPLE_MORPH(bt_inner_morph_~@*~d, CTL, &bt BT_DISC ~@*~d, &bt BT_CLR ~@*~d)
 // bt_morph_~@*~d: bt_morph_~@*~d { \\
 //   compatible = \"zmk,behavior-mod-morph\"; \\
@@ -108,7 +108,7 @@ dbl_l: dbl_l {
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
       (_         ) (_         ) (_         ) (to BASE   ) (to QRT    ) (_         )                       (kp F12    ) (kp F7     ) (kp F8     ) (kp F9     ) (_         ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp F11    ) (kp F4     ) (kp F5     ) (kp F6     ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
+      (_         ) (kp SLCK   ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
     ((symbol-layer . sym)

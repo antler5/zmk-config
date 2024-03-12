@@ -71,7 +71,7 @@ SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
 SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
 SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
 SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
-SIMPLE_MORPH(bt_morph_0, SHFT, &bt BT_SEL 0, &bt_inner_morph_0)
+SIMPLE_MORPH(bt_morph_0, SFT, &bt BT_SEL 0, &bt_inner_morph_0)
 SIMPLE_MORPH(bt_inner_morph_0, CTL, &bt BT_DISC 0, &bt BT_CLR 0)
 // bt_morph_0: bt_morph_0 { \
 //   compatible = "zmk,behavior-mod-morph"; \
@@ -86,7 +86,7 @@ SIMPLE_MORPH(bt_inner_morph_0, CTL, &bt BT_DISC 0, &bt BT_CLR 0)
 //   bindings = <&bt BT_DISC 0>, <&bt BT_CLR 0>; \
 // };
 
-SIMPLE_MORPH(bt_morph_1, SHFT, &bt BT_SEL 1, &bt_inner_morph_1)
+SIMPLE_MORPH(bt_morph_1, SFT, &bt BT_SEL 1, &bt_inner_morph_1)
 SIMPLE_MORPH(bt_inner_morph_1, CTL, &bt BT_DISC 1, &bt BT_CLR 1)
 // bt_morph_1: bt_morph_1 { \
 //   compatible = "zmk,behavior-mod-morph"; \
@@ -101,7 +101,7 @@ SIMPLE_MORPH(bt_inner_morph_1, CTL, &bt BT_DISC 1, &bt BT_CLR 1)
 //   bindings = <&bt BT_DISC 1>, <&bt BT_CLR 1>; \
 // };
 
-SIMPLE_MORPH(bt_morph_2, SHFT, &bt BT_SEL 2, &bt_inner_morph_2)
+SIMPLE_MORPH(bt_morph_2, SFT, &bt BT_SEL 2, &bt_inner_morph_2)
 SIMPLE_MORPH(bt_inner_morph_2, CTL, &bt BT_DISC 2, &bt BT_CLR 2)
 // bt_morph_2: bt_morph_2 { \
 //   compatible = "zmk,behavior-mod-morph"; \
@@ -116,7 +116,7 @@ SIMPLE_MORPH(bt_inner_morph_2, CTL, &bt BT_DISC 2, &bt BT_CLR 2)
 //   bindings = <&bt BT_DISC 2>, <&bt BT_CLR 2>; \
 // };
 
-SIMPLE_MORPH(bt_morph_3, SHFT, &bt BT_SEL 3, &bt_inner_morph_3)
+SIMPLE_MORPH(bt_morph_3, SFT, &bt BT_SEL 3, &bt_inner_morph_3)
 SIMPLE_MORPH(bt_inner_morph_3, CTL, &bt BT_DISC 3, &bt BT_CLR 3)
 // bt_morph_3: bt_morph_3 { \
 //   compatible = "zmk,behavior-mod-morph"; \
@@ -131,7 +131,7 @@ SIMPLE_MORPH(bt_inner_morph_3, CTL, &bt BT_DISC 3, &bt BT_CLR 3)
 //   bindings = <&bt BT_DISC 3>, <&bt BT_CLR 3>; \
 // };
 
-SIMPLE_MORPH(bt_morph_4, SHFT, &bt BT_SEL 4, &bt_inner_morph_4)
+SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt_inner_morph_4)
 SIMPLE_MORPH(bt_inner_morph_4, CTL, &bt BT_DISC 4, &bt BT_CLR 4)
 // bt_morph_4: bt_morph_4 { \
 //   compatible = "zmk,behavior-mod-morph"; \
@@ -171,7 +171,7 @@ SIMPLE_MORPH(bt_inner_morph_4, CTL, &bt BT_DISC 4, &bt BT_CLR 4)
         };
 
         fun {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ &kp SLCK ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         sym {
