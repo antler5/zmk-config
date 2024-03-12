@@ -105,7 +105,7 @@ SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4
         };
 
         ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CAROT &kp DOLLAR ___ ___ &kp ESC &kp PSCRN &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp CAROT &kp DOLLAR ___ ___ &kp ESC &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
         };
 
         fun {
