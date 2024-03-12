@@ -53,18 +53,21 @@
             (simple-morph fslh bslh))
       (map (lambda (n)
              (format #f "\
-bt_morph_~d: bt_morph_~@*~d { \\
-  compatible = \"zmk,behavior-mod-morph\"; \\
-  #binding-cells = <0>; \\
-  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \\
-  bindings = <&bt BT_SEL ~@*~d>, <&bt_inner_morph_~@*~d>; \\
-}; \\
-bt_inner_morph_~@*~d: bt_morph_~@*~d { \\
-  compatible = \"zmk,behavior-mod-morph\"; \\
-  #binding-cells = <0>; \\
-  mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \\
-  bindings = <&bt BT_CLR ~@*~d>, <&bt BT_DISC ~@*~d>; \\
-};" n))
+SIMPLE_MORPH(bt_morph_~@*~d, SHFT, &bt BT_SEL ~@*~d, &bt_inner_morph_~@*~d)
+SIMPLE_MORPH(bt_inner_morph_~@*~d, CTL, &bt BT_DISC ~@*~d, &bt BT_CLR ~@*~d)
+// bt_morph_~@*~d: bt_morph_~@*~d { \\
+//   compatible = \"zmk,behavior-mod-morph\"; \\
+//   #binding-cells = <0>; \\
+//   mods = <(MOD_LSHFT|MOD_RSHFT)>; \\
+//   bindings = <&bt BT_SEL ~@*~d>, <&bt_inner_morph_~@*~d>; \\
+// };
+// bt_inner_morph_~@*~d: bt_morph_~@*~d { \\
+//   compatible = \"zmk,behavior-mod-morph\"; \\
+//   #binding-cells = <0>; \\
+//   mods = <(MOD_LCTL|MOD_RCTL)>; \\
+//   bindings = <&bt BT_DISC ~@*~d>, <&bt BT_CLR ~@*~d>; \\
+// };
+" n))
            (iota 5)))
     "\n"))
 
