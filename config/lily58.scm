@@ -23,39 +23,33 @@
              (srfi srfi-26)
              (srfi srfi-171))
 
-(define-syntax-rule (simple-morph a s) ; alpha, shift
-  (let*-values (((a s) (apply values
-                         (map symbol->string (list 'a 's))))
-                ((A S) (apply values
-                         (map string-upcase (list a s)))))
-    (format #f "~6tSIMPLE_MORPH(~a_morph, SFT, &kp ~a, &kp ~a)" a A S)))
-
-(define-syntax-rule (simple-morph* a s c) ; alpha, shift, ctrl
-  (let*-values (((a s c) (apply values
-                           (map symbol->string (list 'a 's 'c))))
-                ((A S C) (apply values
-                           (map string-upcase (list a s c)))))
-    (string-append
-      (format #f "~6tSIMPLE_MORPH(~a_morph, SFT, &kp ~a, &~@*~a_inner_morph)~%"
-        a A)
-      (format #f "~6tSIMPLE_MORPH(~a_inner_morph, CTL, &kp ~a, &kp ~a)"
-        a S C))))
+(define-syntax simple-morph
+  (syntax-rules ()
+    ((_ a s); alpha, shift
+     (let*-values (((a s) (apply values (map symbol->string (list 'a 's))))
+                   ((A S) (apply values (map string-upcase (list a s)))))
+       (format #f "~6tSIMPLE_MORPH(~a_morph, SFT, &kp ~a, &kp ~a)" a A S)))
+    ((_ a s c) ; alpha, shift, ctrl
+     (let*-values (((a s c) (apply values (map symbol->string (list 'a 's 'c))))
+                   ((A S C) (apply values (map string-upcase (list a s c)))))
+       (format #f "~?~%~?"
+         "~6tSIMPLE_MORPH(~a_morph, SFT, &kp ~a, &~a_inner_morph)"
+         (list a A a)
+         "~6tSIMPLE_MORPH(~a_inner_morph, CTL, &kp ~a, &kp ~a)"
+         (list a S C))))))
 
 (define behaviors
   (string-join
     (append
       ;; TODO: Bind a backup for ctrl-comma (etc.)?
-      ;; XXX: This creates a short of hidden layout on the shift-layer...
-      (list (simple-morph* comma semi gt)
-            (simple-morph* dot colon lt)
-            (simple-morph* sqt dqt grave)
-            (simple-morph* excl qmark pipe)
-            (simple-morph fslh bslh)
-            (simple-morph star hash)
-            (simple-morph tilde amps))
+      (list (simple-morph comma semi  gt)
+            (simple-morph dot   colon lt)
+            (simple-morph sqt   dqt   grave)
+            (simple-morph excl  qmark pipe))
       (map (lambda (n)
-             (format #f "\
-~6tSIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt BT_DISC ~@*~d)" n))
+             (format #f
+               "~6tSIMPLE_MORPH(bt_morph_~d, SFT, &bt BT_SEL ~d, &bt BT_DISC ~d)"
+               n n n))
            (iota 5)))
     "\n"))
 
@@ -65,13 +59,13 @@
       (X         ) (kp V      ) (kp M      ) (kp L      ) (kp C      ) (kp P      )                       (kp B      ) (key_repeat) (kp U      ) (kp O      ) (kp Q      ) (X         )
       (X         ) (kp S      ) (kp T      ) (kp R      ) (kp D      ) (kp Y      )                       (kp F      ) (kp N      ) (kp E      ) (kp A      ) (kp I      ) (sm SQT    )
       (X         ) (kp X      ) (kp K      ) (kp J      ) (kp G      ) (kp W      ) (X       ) (X       ) (kp Z      ) (kp H      ) (sm COMMA  ) (sm DOT    ) (sm EXCL   ) (X         )
-                                             (to BASE   ) (mo NUM    ) (mo EXT    ) (X       ) (X       ) (kp SPC    ) (X         ) (X         )
+                                             (to BASE   ) (mo NUM    ) (mo EXT    ) (X       ) (X       ) (kp SPC    ) (mo SYM    ) (X         )
       ))
     ((number-layer . num)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (to SYS    ) (to SYM    ) (to FUN    ) (to EXT    ) (to NUM    )                       (sm STAR   ) (kp N7     ) (kp N8     ) (kp N9     ) (sm FSLH   ) (sm TILDE  )
+      (_         ) (to SYS    ) (to SYM    ) (to FUN    ) (to EXT    ) (to NUM    )                       (kp STAR   ) (kp N7     ) (kp N8     ) (kp N9     ) (kp FSLH   ) (kp TILDE  )
       (_         ) (sk LALT   ) (sk LMETA  ) (mo SYM    ) (sk LCTRL  ) (_         )                       (kp COLON  ) (kp N4     ) (kp N5     ) (kp N6     ) (kp PLUS   ) (kp MINUS  )
-      (_         ) (_         ) (_         ) (caps_word ) (_         ) (_         ) (_       ) (_       ) (kp AT     ) (kp N1     ) (kp N2     ) (kp N3     ) (kp LT     ) (kp GT     )
+      (_         ) (_         ) (_         ) (caps_word ) (_         ) (_         ) (_       ) (_       ) (kp AT     ) (kp N1     ) (kp N2     ) (kp N3     ) (kp GT     ) (kp LT     )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (kp N0     ) (_         ) (_         )
       ))
     ((extend-layer . ext) ; ie. nav
@@ -86,21 +80,19 @@
       (_         ) (_         ) (_         ) (to BASE   ) (to QRT    ) (_         )                       (kp F12    ) (kp F7     ) (kp F8     ) (kp F9     ) (kp PSCRN  ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp F11    ) (kp F4     ) (kp F5     ) (kp F6     ) (_         ) (_         )
       (_         ) (kp KP_CLEAR)(kp KP_NUM ) (kp CAPS   ) (kp SLCK   ) (_         ) (_       ) (_       ) (kp F10    ) (kp F1     ) (kp F2     ) (kp F3     ) (_         ) (_         )
-                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
-    ;; I'm so close to 4 layers...
     ((symbol-layer . sym)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (kp RBKT   ) (kp LBKT   ) (_         ) (_         ) (_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (kp RPAR   ) (kp LPAR   ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (kp RBRC   ) (kp LBRC   ) (_         ) (_         ) (_         )
-                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (kp HASH   ) (_         ) (kp RBKT   ) (kp LBKT   ) (kp BSLH   ) (kp AMPS   )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp SEMI   ) (_         ) (kp RPAR   ) (kp LPAR   ) (kp EQUAL  ) (kp UNDER  )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (kp RBRC   ) (kp LBRC   ) (kp RPAR   ) (kp LPAR   )
+                                             (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         ) (_         )
       ))
     ((system-layer . sys)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (&bootloader)                      (&bootloader)(_         ) (_         ) (_         ) (_         ) (_         )
       (_         ) (_         ) (_         ) (to BASE   ) (to QRT    ) (&sys_reset)                       (&sys_reset) (&bt BT_PRV) (&bt BT_NXT)(&out OUT_TOG)(_         ) (_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (&bt BT_CLR) (bm 4      ) (bm 5      ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (&bt BT_CLR_ALL)(bm 1   ) (bm 2      ) (bm 3      ) (_         ) (_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (&bt BT_CLR) (bm 3      ) (bm 4      ) (_         ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       )(&bt BT_CLR_ALL)(bm 0    ) (bm 1      ) (bm 2      ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
     ((qwerty-layer . qrt)
