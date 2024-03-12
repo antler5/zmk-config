@@ -56,7 +56,7 @@
             (simple-morph tilde amps))
       (map (lambda (n)
              (format #f "\
-SIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt BT_DISC ~@*~d~%)" n))
+SIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt BT_DISC ~@*~d)" n))
            (iota 5)))
     "\n"))
 

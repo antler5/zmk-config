@@ -73,16 +73,11 @@ SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
 SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
 SIMPLE_MORPH(star_morph, SFT, &kp STAR, &kp HASH)
 SIMPLE_MORPH(tilde_morph, SFT, &kp TILDE, &kp AMPS)
-SIMPLE_MORPH(bt_morph_0, SFT, &bt BT_SEL 0, &bt BT_DISC 0
-)
-SIMPLE_MORPH(bt_morph_1, SFT, &bt BT_SEL 1, &bt BT_DISC 1
-)
-SIMPLE_MORPH(bt_morph_2, SFT, &bt BT_SEL 2, &bt BT_DISC 2
-)
-SIMPLE_MORPH(bt_morph_3, SFT, &bt BT_SEL 3, &bt BT_DISC 3
-)
-SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4
-)
+SIMPLE_MORPH(bt_morph_0, SFT, &bt BT_SEL 0, &bt BT_DISC 0)
+SIMPLE_MORPH(bt_morph_1, SFT, &bt BT_SEL 1, &bt BT_DISC 1)
+SIMPLE_MORPH(bt_morph_2, SFT, &bt BT_SEL 2, &bt BT_DISC 2)
+SIMPLE_MORPH(bt_morph_3, SFT, &bt BT_SEL 3, &bt BT_DISC 3)
+SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4)
     };
     // combos {
     //     compatible = "zmk,combos";
