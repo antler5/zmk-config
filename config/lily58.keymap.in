@@ -23,16 +23,6 @@
 #define XXX &none
 #define ___ &trans
 
-// #define ZMK_TAP_DANCE_STRINGIFY(x) #x
-// #define ZMK_TAP_DANCE(name, layer)            \
-//   name: name { \
-//     compatible = "zmk,behavior-tap-dance"; \
-//     label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
-//     #binding-cells = <0>; \
-//     tapping-term-ms = <200>; \
-//     bindings = <&mo layer>, <&to layer>; \
-//   };
-
 // from urob's config
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
   NAME: NAME { \
@@ -58,15 +48,15 @@
     behaviors {
 {{BEHAVIORS}}
     };
-    // combos {
-    //     compatible = "zmk,combos";
-    //     combo_l_mr {
-    //         timeout-ms = <50>;
-    //         layers = <0>;
-    //         key-positions = <22 23>;
-    //         bindings = <&dbl_l>;
-    //     };
-    // };
+    combos {
+        compatible = "zmk,combos";
+        combo_l_mr {
+          timeout-ms = <50>;
+          layers = <0>;
+          key-positions = <22 23>;
+          bindings = <&dbl_l>;
+        };
+    };
     keymap {
       compatible = "zmk,keymap";
 {{LAYER_BINDINGS}}
