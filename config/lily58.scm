@@ -201,6 +201,7 @@ dbl_l: dbl_l {
                      (make-subst "\\{\\{LAYER_BINDINGS\\}\\}" layer-bindings))
             (call-with-input-file "lily58.keymap.in" get-string-all))))
 
+;; TODO [#C]: Mode needs reloaded, can file-local variables invoke `custom' setters?
 ;; Local Variables:
 ;; whitespace-style: '(face missing-newline-at-eof tab-mark)
 ;; End:
