@@ -78,7 +78,7 @@
     keymap {
       compatible = "zmk,keymap";
         base {
-            bindings = < XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX XXX &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &sqt_morph XXX &kp X &kp K &kp J &kp G &kp W XXX XXX &kp Z &kp H &comma_morph &dot_morph &excl_morph XXX XXX &to BASE &mo NUM &mo EXT XXX &kp SPC &mo SYM XXX >;
+            bindings = < XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX XXX &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &sqt_morph XXX &kp X &kp K &kp J &kp G &kp W XXX XXX &kp Z &kp H &comma_morph &dot_morph &excl_morph XXX XXX &to BASE &mo EXT &mo NUM XXX &kp SPC &mo SYM XXX >;
         };
 
         num {
@@ -86,7 +86,7 @@
         };
 
         ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N0 &kp CARET &kp DOLLAR &kp PERCENT ___ XXX &kp HOME &kp PG_DN &kp PG_UP &kp END ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp RET &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp DELETE &kp BKSP &kp TAB &kp INSERT &kp ESC ___ ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N0 &kp CARET &kp PERCENT &kp DOLLAR ___ XXX &kp HOME &kp PG_DN &kp PG_UP &kp END ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp RET &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp DELETE &kp BKSP &kp TAB &kp INSERT &kp ESC ___ ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
         };
 
         fun {

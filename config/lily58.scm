@@ -65,7 +65,7 @@
       (X         ) (kp V      ) (kp M      ) (kp L      ) (kp C      ) (kp P      )                       (kp B      ) (key_repeat) (kp U      ) (kp O      ) (kp Q      ) (X         )
       (X         ) (kp S      ) (kp T      ) (kp R      ) (kp D      ) (kp Y      )                       (kp F      ) (kp N      ) (kp E      ) (kp A      ) (kp I      ) (sm SQT    )
       (X         ) (kp X      ) (kp K      ) (kp J      ) (kp G      ) (kp W      ) (X       ) (X       ) (kp Z      ) (kp H      ) (sm COMMA  ) (sm DOT    ) (sm EXCL   ) (X         )
-                                             (X         ) (to BASE   ) (mo NUM    ) (mo EXT  ) (X       ) (kp SPC    ) (mo SYM    ) (X         )
+                                             (X         ) (to BASE   ) (mo EXT    ) (mo NUM  ) (X       ) (kp SPC    ) (mo SYM    ) (X         )
       ))
     ((number-layer . num)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
@@ -76,7 +76,7 @@
       ))
     ((extend-layer . ext) ; ie. nav
      ((_         ) (_         ) (_         ) (_         ) (_         ) (_         )                       (_         ) (_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (kp N0     ) (kp CARET  ) (kp DOLLAR ) (kp PERCENT) (_         )                       (X         ) (kp HOME   ) (kp PG_DN  ) (kp PG_UP  ) (kp END    ) (_         )
+      (_         ) (kp N0     ) (kp CARET  ) (kp PERCENT) (kp DOLLAR ) (_         )                       (X         ) (kp HOME   ) (kp PG_DN  ) (kp PG_UP  ) (kp END    ) (_         )
       (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (kp RET    ) (kp LEFT   ) (kp DOWN   ) (kp UP     ) (kp RIGHT  ) (_         )
       (_         ) (kp K_UNDO ) (kp K_CUT  ) (kp K_COPY ) (kp K_PASTE) (_         ) (_       ) (_       ) (kp DELETE ) (kp BKSP   ) (kp TAB    ) (kp INSERT ) (kp ESC    ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (kp BKSP   ) (_         ) (_         )
