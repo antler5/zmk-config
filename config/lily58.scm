@@ -53,34 +53,9 @@
             (simple-morph fslh bslh))
       (map (lambda (n)
              (format #f "\
-SIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt_inner_morph_~@*~d)
-SIMPLE_MORPH(bt_inner_morph_~@*~d, CTL, &bt BT_DISC ~@*~d, &bt BT_CLR ~@*~d)
-// bt_morph_~@*~d: bt_morph_~@*~d { \\
-//   compatible = \"zmk,behavior-mod-morph\"; \\
-//   #binding-cells = <0>; \\
-//   mods = <(MOD_LSHFT|MOD_RSHFT)>; \\
-//   bindings = <&bt BT_SEL ~@*~d>, <&bt_inner_morph_~@*~d>; \\
-// };
-// bt_inner_morph_~@*~d: bt_morph_~@*~d { \\
-//   compatible = \"zmk,behavior-mod-morph\"; \\
-//   #binding-cells = <0>; \\
-//   mods = <(MOD_LCTL|MOD_RCTL)>; \\
-//   bindings = <&bt BT_DISC ~@*~d>, <&bt BT_CLR ~@*~d>; \\
-// };
-" n))
+SIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt BT_DISC ~@*~d~%)" n))
            (iota 5)))
     "\n"))
-
-(define macros
-  "\
-dbl_l: dbl_l {
-  compatible = \"zmk,behavior-macro\";
-  label = \"ZM_dbl_l\";
-  #binding-cells = <0>;
-  wait-ms = <30>;
-  tap-ms = <40>;
-  bindings = <&kp L &kp L>;
-};")
 
 (define layers
   `(((base-layer . base)
@@ -120,9 +95,9 @@ dbl_l: dbl_l {
       ))
     ((system-layer . sys)
      ((_         ) (_         ) (_         ) (_         ) (_         ) (&bootloader)                      (&bootloader)(_         ) (_         ) (_         ) (_         ) (_         )
-      (_         ) (_         ) (_         ) (_         ) (_         ) (&sys_reset)                       (&sys_reset) (_         ) (_         ) (_         ) (&bt CLR_ALL)(_         )
-      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (_         ) (bm 4      ) (bm 5      ) (_         ) (&bt BT_PRV) (&bt BT_NXT)
-      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (bm 1      ) (bm 2      ) (bm 3      ) (_         ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (&sys_reset)                       (&sys_reset) (OUT_TOG   ) (&bt BT_NXT) (&bt BT_PRV) (          ) (_         )
+      (_         ) (sk LALT   ) (sk LMETA  ) (sk LSHIFT ) (sk LCTRL  ) (_         )                       (&bt CLR   ) (bm 4      ) (bm 5      ) (_         ) (          ) (_         )
+      (_         ) (_         ) (_         ) (_         ) (_         ) (_         ) (_       ) (_       ) (&bt CLR_ALL)(bm 1      ) (bm 2      ) (bm 3      ) (_         ) (_         )
                                              (_         ) (_         ) (_         ) (_       ) (_       ) (_         ) (_         ) (_         )
       ))
     ((qwerty-layer . qrt)
@@ -199,7 +174,6 @@ dbl_l: dbl_l {
 
 (define (main)
   (display ((compose (make-subst "\\{\\{LAYER_DEFINES\\}\\}" layer-defines)
-                     (make-subst "\\{\\{MACROS\\}\\}" macros)
                      (make-subst "\\{\\{BEHAVIORS\\}\\}" behaviors)
                      (make-subst "\\{\\{LAYER_BINDINGS\\}\\}" layer-bindings))
             (call-with-input-file "lily58.keymap.in" get-string-all))))

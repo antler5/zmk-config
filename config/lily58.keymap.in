@@ -23,15 +23,15 @@
 #define XXX &none
 #define ___ &trans
 
-#define ZMK_TAP_DANCE_STRINGIFY(x) #x
-#define ZMK_TAP_DANCE(name, layer) \
-  name: name { \
-    compatible = "zmk,behavior-tap-dance"; \
-    label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
-    #binding-cells = <0>; \
-    tapping-term-ms = <200>; \
-    bindings = <&mo layer>, <&to layer>; \
-  };
+// #define ZMK_TAP_DANCE_STRINGIFY(x) #x
+// #define ZMK_TAP_DANCE(name, layer)            \
+//   name: name { \
+//     compatible = "zmk,behavior-tap-dance"; \
+//     label = ZMK_TAP_DANCE_STRINGIFY(ZM_ ## name); \
+//     #binding-cells = <0>; \
+//     tapping-term-ms = <200>; \
+//     bindings = <&mo layer>, <&to layer>; \
+//   };
 
 // from urob's config
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
@@ -46,10 +46,17 @@
 
 / {
     macros {
-      {{MACROS}}
+      dbl_l: dbl_l {
+        compatible = \"zmk,behavior-macro\";
+        label = \"ZM_dbl_l\";
+        #binding-cells = <0>;
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&kp L &kp L>;
+      };
     };
     behaviors {
-      {{BEHAVIORS}}
+{{BEHAVIORS}}
     };
     // combos {
     //     compatible = "zmk,combos";
@@ -62,6 +69,6 @@
     // };
     keymap {
       compatible = "zmk,keymap";
-      {{LAYER_BINDINGS}}
+{{LAYER_BINDINGS}}
     };
 };
