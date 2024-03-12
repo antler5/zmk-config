@@ -99,11 +99,11 @@ SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4)
         };
 
         ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N0 &kp CARET &kp DOLLAR &kp PERCENT ___ &kp PSCRN &kp ESC &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp HOME ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ &kp END ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N0 &kp CARET &kp DOLLAR &kp PERCENT ___ &kp HOME &kp RET &kp PG_DN &kp PG_UP ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp END &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp ESC ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp INSERT &kp DELETE &kp BKSP &kp TAB ___ ___ ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
         };
 
         fun {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ &kp KP_CLEAR &kp KP_NUM &kp CAPS &kp SLCK ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 &kp PSCRN ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ &kp KP_CLEAR &kp KP_NUM &kp CAPS &kp SLCK ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         sym {
@@ -111,7 +111,7 @@ SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4)
         };
 
         sys {
-            bindings = < ___ ___ ___ ___ ___ &bootloader &bootloader ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &sys_reset &sys_reset &bt BT_PRV &bt BT_NXT &out OUT_TOG  ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &bt BT_CLR &bt_morph_4 &bt_morph_5 ___  ___ ___ ___ ___ ___ ___ ___ ___ ___ &bt BT_CLR_ALL &bt_morph_1 &bt_morph_2 &bt_morph_3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = < ___ ___ ___ ___ ___ &bootloader &bootloader ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT &sys_reset &sys_reset &bt BT_PRV &bt BT_NXT &out OUT_TOG ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &bt BT_CLR &bt_morph_4 &bt_morph_5 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &bt BT_CLR_ALL &bt_morph_1 &bt_morph_2 &bt_morph_3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         qrt {
