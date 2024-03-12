@@ -15,7 +15,8 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-(use-modules (ice-9 regex)
+(use-modules (ice-9 format)
+             (ice-9 regex)
              (ice-9 match)
              (ice-9 textual-ports)
              (srfi srfi-11)
@@ -27,9 +28,7 @@
                          (map symbol->string (list 'a 's))))
                 ((A S) (apply values
                          (map string-upcase (list a s)))))
-    (string-append
-      "SIMPLE_MORPH(" a "_morph"
-      ", SFT" ", &kp " A ", &kp " S ")")))
+    (format #f "~6tSIMPLE_MORPH(~a_morph, SFT, &kp ~a, &kp ~a)" a A S)))
 
 (define-syntax-rule (simple-morph* a s c) ; alpha, shift, ctrl
   (let*-values (((a s c) (apply values
@@ -37,10 +36,10 @@
                 ((A S C) (apply values
                            (map string-upcase (list a s c)))))
     (string-append
-      "SIMPLE_MORPH(" a "_morph"
-      ", SFT" ", &kp " A ", &" a "_inner_morph)\n"
-      "SIMPLE_MORPH(" a "_inner_morph"
-      ", CTL" ", &kp " S ", &kp " C ")")))
+      (format #f "~6tSIMPLE_MORPH(~a_morph, SFT, &kp ~a, &~@*~a_inner_morph)~%"
+        a A)
+      (format #f "~6tSIMPLE_MORPH(~a_inner_morph, CTL, &kp ~a, &kp ~a)"
+        a S C))))
 
 (define behaviors
   (string-join
@@ -56,7 +55,7 @@
             (simple-morph tilde amps))
       (map (lambda (n)
              (format #f "\
-SIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt BT_DISC ~@*~d)" n))
+~6tSIMPLE_MORPH(bt_morph_~@*~d, SFT, &bt BT_SEL ~@*~d, &bt BT_DISC ~@*~d)" n))
            (iota 5)))
     "\n"))
 
