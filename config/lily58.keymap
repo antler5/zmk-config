@@ -47,11 +47,12 @@
 #define EXT 2
 #define SYM 3
 #define FUN 4
-#define QRT 5
+#define SYS 5
+#define QRT 6
 
 / {
     macros {
-        dbl_l: dbl_l {
+      dbl_l: dbl_l {
   compatible = "zmk,behavior-macro";
   label = "ZM_dbl_l";
   #binding-cells = <0>;
@@ -62,14 +63,14 @@
     };
     behaviors {
       SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
-      SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMI, &kp GT)
-      SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
-      SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp LT)
-      SIMPLE_MORPH(sqt_morph, SFT, &kp SQT, &sqt_inner_morph)
-      SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
-      SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
-      SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
-      SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
+SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMI, &kp GT)
+SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
+SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp LT)
+SIMPLE_MORPH(sqt_morph, SFT, &kp SQT, &sqt_inner_morph)
+SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
+SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
+SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
+SIMPLE_MORPH(fslh_morph, SFT, &kp FSLH, &kp BSLH)
     };
     // combos {
     //     compatible = "zmk,combos";
@@ -81,9 +82,8 @@
     //     };
     // };
     keymap {
-        compatible = "zmk,keymap";
-
-        base {
+      compatible = "zmk,keymap";
+              base {
             bindings = < XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX XXX &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &sqt_morph XXX &kp X &kp K &kp J &kp G &kp W XXX XXX &kp Z &kp H &comma_morph &dot_morph &excl_morph XXX &to BASE &mo NUM &mo EXT XXX XXX &kp SPC XXX XXX >;
         };
 
@@ -101,6 +101,10 @@
 
         fun {
             bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+        };
+
+        sys {
+            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___  &sys_reset &bootloader &bootloader &sys_reset ___ ___ ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
         };
 
         qrt {
