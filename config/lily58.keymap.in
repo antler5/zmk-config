@@ -55,6 +55,7 @@
         layers = <0>;
         key-positions = <14 15>;
         bindings = <&dbl_l>;
+        require-prior-idle-ms = <250>;
       };
     };
     keymap {
