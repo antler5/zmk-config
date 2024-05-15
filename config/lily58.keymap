@@ -26,7 +26,23 @@
 #define BASE 0
 #define SYS 1
 
+// from urob's config
+#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
+  NAME: NAME { \
+    compatible = "zmk,behavior-mod-morph"; \
+    #binding-cells = <0>; \
+    mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
+    bindings = <BINDING1>, <BINDING2>; \
+  };
+
 / {
+    behaviors {
+      SIMPLE_MORPH(bt_morph_0, SFT, &bt BT_SEL 0, &bt BT_DISC 0)
+      SIMPLE_MORPH(bt_morph_1, SFT, &bt BT_SEL 1, &bt BT_DISC 1)
+      SIMPLE_MORPH(bt_morph_2, SFT, &bt BT_SEL 2, &bt BT_DISC 2)
+      SIMPLE_MORPH(bt_morph_3, SFT, &bt BT_SEL 3, &bt BT_DISC 3)
+      SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4)
+    };
     keymap {
       compatible = "zmk,keymap";
         base_layer {
