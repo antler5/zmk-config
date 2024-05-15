@@ -23,87 +23,42 @@
 #define XXX &none
 #define ___ &trans
 
-// from urob's config
-#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
-  NAME: NAME { \
-    compatible = "zmk,behavior-mod-morph"; \
-    #binding-cells = <0>; \
-    mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
-    bindings = <BINDING1>, <BINDING2>; \
-  };
-
 #define BASE 0
-#define NUM 1
-#define EXT 2
-#define FUN 3
-#define SYM 4
-#define SYS 5
-#define QRT 6
+#define SYS 1
 
 / {
-    macros {
-      dbl_l: dbl_l {
-        compatible = "zmk,behavior-macro";
-        label = "ZM_dbl_l";
-        #binding-cells = <0>;
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&kp L &kp L>;
-      };
-    };
-    behaviors {
-      SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
-      SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMI, &kp GT)
-      SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
-      SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp LT)
-      SIMPLE_MORPH(sqt_morph, SFT, &kp SQT, &sqt_inner_morph)
-      SIMPLE_MORPH(sqt_inner_morph, CTL, &kp DQT, &kp GRAVE)
-      SIMPLE_MORPH(excl_morph, SFT, &kp EXCL, &excl_inner_morph)
-      SIMPLE_MORPH(excl_inner_morph, CTL, &kp QMARK, &kp PIPE)
-      SIMPLE_MORPH(bt_morph_0, SFT, &bt BT_SEL 0, &bt BT_DISC 0)
-      SIMPLE_MORPH(bt_morph_1, SFT, &bt BT_SEL 1, &bt BT_DISC 1)
-      SIMPLE_MORPH(bt_morph_2, SFT, &bt BT_SEL 2, &bt BT_DISC 2)
-      SIMPLE_MORPH(bt_morph_3, SFT, &bt BT_SEL 3, &bt BT_DISC 3)
-      SIMPLE_MORPH(bt_morph_4, SFT, &bt BT_SEL 4, &bt BT_DISC 4)
-    };
-    combos {
-      compatible = "zmk,combos";
-      combo_l_mr {
-        timeout-ms = <50>;
-        layers = <0>;
-        key-positions = <14 15>;
-        bindings = <&dbl_l>;
-      };
-    };
     keymap {
       compatible = "zmk,keymap";
-        base {
-            bindings = < XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX &kp V &kp M &kp L &kp C &kp P &kp B &key_repeat &kp U &kp O &kp Q XXX XXX &kp S &kp T &kp R &kp D &kp Y &kp F &kp N &kp E &kp A &kp I &sqt_morph XXX &kp X &kp K &kp J &kp G &kp W XXX XXX &kp Z &kp H &comma_morph &dot_morph &excl_morph XXX XXX &to BASE &mo EXT &mo NUM XXX &kp SPC &mo SYM XXX >;
-        };
-
-        num {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to SYS &to SYM &to FUN &to EXT &to NUM &kp STAR &kp N7 &kp N8 &kp N9 &kp FSLH &kp TILDE ___ &sk LALT &sk LMETA &mo SYM &sk LCTRL ___ &kp COLON &kp N4 &kp N5 &kp N6 &kp PLUS &kp MINUS ___ ___ ___ &caps_word ___ ___ ___ ___ &kp AT &kp N1 &kp N2 &kp N3 &kp GT &kp LT ___ ___ ___ ___ ___ &kp N0 ___ ___ >;
-        };
-
-        ext {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp N0 &kp CARET &kp PERCENT &kp DOLLAR ___ XXX &kp HOME &kp PG_DN &kp PG_UP &kp END ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp RET &kp LEFT &kp DOWN &kp UP &kp RIGHT ___ ___ &kp K_UNDO &kp K_CUT &kp K_COPY &kp K_PASTE ___ ___ ___ &kp DELETE &kp BKSP &kp TAB &kp INSERT &kp ESC ___ ___ ___ ___ ___ ___ &kp BKSP ___ ___ >;
-        };
-
-        fun {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT ___ &kp F12 &kp F7 &kp F8 &kp F9 &kp PSCRN ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp F11 &kp F4 &kp F5 &kp F6 ___ ___ ___ &kp KP_CLEAR &kp KP_NUM &kp CAPS &kp SLCK ___ ___ ___ &kp F10 &kp F1 &kp F2 &kp F3 ___ ___ >;
-        };
-
-        sym {
-            bindings = < ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp HASH ___ &kp RBKT &kp LBKT &kp BSLH &kp AMPS ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &kp SEMI ___ &kp RPAR &kp LPAR &kp EQUAL &kp UNDER ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &kp RBRC &kp LBRC &kp RPAR &kp LPAR ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+        base_layer {
+            bindings = <
+// ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮                           ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+     ___           &kp N1        &kp N2        &kp N3        &kp N4        &kp N5                                    &kp N6        &kp N7        &kp N8        &kp N9        &kp N0        ___
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     &kp TAB       &kp Q         &kp W         &kp E         &kp R         &kp T                                     &kp U         &kp I         &kp O         &kp P         &kp LBRC      &kp RBRC
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     &kp CAPS      &kp A         &kp S         &kp D         &kp F         &kp G                                     &kp J         &kp K         &kp L         &kp SEMI      &kp SQT       &kp RET
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┬─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     ___           &kp LSHIFT    &kp Z         &kp X         &kp C         &kp V         ___           ___           &kp M         &kp COMMA     &kp DOT       &kp SLASH     &kp RSHIFT    ___
+// └─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────┘
+                                               XXX           &mo SYS       &kp SPC       &kp LALT      &kp RALT      &kp SPC       &mo SYS       XXX
+//                                           ╰─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────╯
+            >;
         };
 
         sys {
-            bindings = < ___ ___ ___ ___ ___ &bootloader &bootloader ___ ___ ___ ___ ___ ___ ___ ___ &to BASE &to QRT &sys_reset &sys_reset &bt BT_PRV &bt BT_NXT &out OUT_TOG ___ ___ ___ &sk LALT &sk LMETA &sk LSHIFT &sk LCTRL ___ &bt BT_CLR &bt_morph_3 &bt_morph_4 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ &bt BT_CLR_ALL &bt_morph_0 &bt_morph_1 &bt_morph_2 ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ >;
+            bindings = <
+// ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮                           ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+     ___           ___           ___           ___           ___           &bootloader                               &bootloader   ___           ___           ___           ___           ___
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     ___           ___           &out OUT_TOG  &bt BT_NXT    &bt BT_PRV    &sys_reset                                &sys_reset    &bt BT_PRV    &bt BT_NXT    &out OUT_TOG  ___           ___
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤                           ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     ___           ___           ___           &bt_morph_4   &bt_morph_3   &bt BT_CLR                                &bt BT_CLR    &bt_morph_3   &bt_morph_4   ___           ___           ___
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┬─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+     ___           ___           &bt_morph_2   &bt_morph_1   &bt_morph_0   &bt BT_CLR_ALL ___          ___           &bt BT_CLR_ALL &bt_morph_0  &bt_morph_1   &bt_morph_2   ___           ___
+// └─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────┘
+                                               XXX           ___           ___           ___           ___           ___           ___           XXX
+//                                           ╰─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────╯
+            >;
         };
-
-        qrt {
-            bindings = < ___ &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 ___ ___ &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P ___ ___ &kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K &kp L &kp SEMI &kp SQT ___ &kp Z &kp X &kp C &kp V &kp B ___ ___ &kp N &kp M &kp COMMA &kp DOT &kp SLASH ___ &to QRT ___ ___ ___ ___ ___ ___ ___ >;
-        };
-
     };
 };
